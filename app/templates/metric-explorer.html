@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Page Content -->
+  <script  type="text/javascript">
+  $(function() {
+    function log( message ) {
+      $( "<div>" ).text( message ).prependTo( "#log" );
+      $( "#log" ).scrollTop( 0 );
+    }
+ 
+    $( "#metric-entry" ).autocomplete({
+      source: "lookup",
+      minLength: 2,
+      select: function( event, ui ) {
+        log( ui.item ?
+          "Selected: " + ui.item.value + " aka " + ui.item.id :
+          "Nothing selected, input was " + this.value );
+      }
+    });
+  });
+  </script>
+        <div id="page-wrapper">
+            <div class="container-fluid">
+		<div class="row">
+               	    <div class="col-lg-3">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Metric Explorer
+                            </div>
+                            <div class="panel-body">
+                                <form role="form">
+                                    <div class="form-group">
+                                        <label>Metric Name</label>
+                                        <input id="metric-entry" class="form-control input-sm">
+                                        <p class="help-block">Enter name of form.</p>
+                                    </div>
+				</form>
+                            </div>
+                        </div>
+                    </div>
+		</div>
+
+
+
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+{% endblock %}
