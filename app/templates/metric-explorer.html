@@ -8,15 +8,52 @@
       $( "#log" ).scrollTop( 0 );
     }
  
-    $( "#metric-entry" ).autocomplete({
-      source: "lookup",
-      minLength: 2,
-      select: function( event, ui ) {
-        log( ui.item ?
-          "Selected: " + ui.item.value + " aka " + ui.item.id :
-          "Nothing selected, input was " + this.value );
-      }
-    });
+    var metricUrl = '/lookup';
+    var pageSize = 20;
+
+    $('#metric-entry').select2(
+    {
+        tags: true,
+        placeholder: 'Enter name',
+        //Does the user have to enter any data before sending the ajax request
+        minimumInputLength: 3,            
+        ajax: {
+          url: metricUrl,
+            //The url of the json service
+          dataType: 'json',
+            //How long the user has to pause their typing before sending the next request
+          quietMillis: 150,
+          //Our search term and what page we are on
+          data: function (params) {
+            return {
+		term: params.term, 
+                page: params.page
+            };
+          },
+     
+          processResults: function (data, params) {
+          // parse the results into the format expected by Select2
+          // since we are using custom formatting functions we do not need to
+          // alter the remote JSON data, except to indicate that infinite
+          // scrolling can be used
+            params.page = params.page || 1;
+
+            return {
+              results: data,
+              pagination: {
+                more: (params.page * 30) < data.length
+              }
+            };
+          },
+        cache: true
+     },
+    templateResult: function (option) {
+      return option.desc ;
+    },
+    templateSelection: function (option) {
+      return option.desc;
+    }
+}); 
   });
   </script>
         <div id="page-wrapper">
@@ -31,8 +68,9 @@
                                 <form role="form">
                                     <div class="form-group">
                                         <label>Metric Name</label>
-                                        <input id="metric-entry" class="form-control input-sm">
-                                        <p class="help-block">Enter name of form.</p>
+                                        <select id="metric-entry" multiple style="width:100%">
+                                          <option value="3620194" selected="selected">select2/select2</option>
+                                        </select>
                                     </div>
 				</form>
                             </div>

@@ -49,7 +49,7 @@ def metric_explorer():
 @app.route("/lookup")
 def lookup():
     sub = request.args["term"]
-    result=[{"value":"234","id":"x"}, {"value":"332", "id":"y"}]
+    result=[{"desc":"234","id":"x"}, {"desc":"332", "id":"y"}]
     lst = string.split(sub,' ')
     newlst=[]
     for work in lst:
@@ -63,7 +63,7 @@ def lookup():
     rows = cursor.fetchall()
     result = []
     for row in rows:
-        result.append( dict([("value",row[1]), ("id",row[0])]))
+        result.append( dict([("desc",row[1]), ("id",row[0])]))
 
     print("-----------------------")
     pprint.pprint(result)
